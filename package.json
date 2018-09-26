@@ -1,0 +1,31 @@
+{
+  "name": "mongoaccess",
+  "version": "1.0.0",
+  "description": "Some functions to help working with MongoDB and Node.js for local connection, using the official MongoDB driver. Automatic connection start.",
+  "homepage": "https://github.com/ortizvinicius/mongoaccess#readme",
+  "bugs": {
+    "url": "https://github.com/ortizvinicius/mongoaccess/issues",
+    "email": "vinicius.oaw@gmail.com"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "keywords": [
+    "mongodb",
+    "nodejs",
+    "driver",
+    "automatic",
+    "connection"
+  ],
+  "repository": "github:ortizvinicius/mongoaccess",
+  "author": "Vinicius Ortiz <vinicius.oaw@gmail.com> (https://github.com/ortizvinicius)",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^2.2.23"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
