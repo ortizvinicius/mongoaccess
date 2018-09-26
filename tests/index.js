@@ -4,7 +4,7 @@ const chai = require('chai'),
 
 const dbAccess = require('../index')('mongodb://localhost:27017/db-tests');
 
-describe('dataAccess/dbAccess Test', () => {
+describe('MongoAccess Test', () => {
 
   it('Should have `startConnection` property', () => {
     expect(dbAccess).to.have.property('startConnection');
@@ -28,7 +28,7 @@ describe('dataAccess/dbAccess Test', () => {
 
 });
 
-describe('dataAccess/dbAccess -> startConnection() Test', () => {
+describe('MongoAccess -> startConnection() Test', () => {
 
   it('With url argument wrong should return an exception', () => {
     return dbAccess.startConnection('wrongurl')
@@ -67,7 +67,7 @@ describe('dataAccess/dbAccess -> startConnection() Test', () => {
 
 });
 
-describe('dataAccess/dbAccess -> findInCollection() Test', () => {
+describe('MongoAccess -> findInCollection() Test', () => {
 
   it('Without first argument should return an exception', () => {
     return dbAccess.findInCollection()
@@ -102,7 +102,7 @@ describe('dataAccess/dbAccess -> findInCollection() Test', () => {
 
 });
 
-describe('dataAccess/dbAccess -> insertInCollection() Test', () => {
+describe('MongoAccess -> insertInCollection() Test', () => {
 
   it('Without first argument should return an exception', () => {
     return dbAccess.insertInCollection()
@@ -153,7 +153,7 @@ describe('dataAccess/dbAccess -> insertInCollection() Test', () => {
 
 });
 
-describe('dataAccess/dbAccess -> updateInCollection() Test', () => {
+describe('MongoAccess -> updateInCollection() Test', () => {
 
   it('Without first argument should return an exception', () => {
     return dbAccess.updateInCollection()
@@ -199,7 +199,7 @@ describe('dataAccess/dbAccess -> updateInCollection() Test', () => {
 
 });
 
-describe('dataAccess/dbAccess -> removeInCollection() Test', () => {
+describe('MongoAccess -> removeInCollection() Test', () => {
   
   it('Without first argument should return an exception', () => {
     return dbAccess.removeInCollection()
