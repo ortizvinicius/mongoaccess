@@ -6,7 +6,7 @@ Some functions to help working with MongoDB and Node.js for local connection, us
 npm i mongoaccess --save
 ```
 
-##How to use
+## How to use
 ```
 const dbAccess = require('mongoaccess')('mongodb://localhost:27017/db-tests');
 
