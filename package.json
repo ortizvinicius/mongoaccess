@@ -1,6 +1,6 @@
 {
   "name": "mongoaccess",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Some functions to help working with MongoDB and Node.js for local connection, using the official MongoDB driver. Automatic connection start.",
   "homepage": "https://github.com/ortizvinicius/mongoaccess#readme",
   "bugs": {
