@@ -17,13 +17,15 @@ dbAccess.findInCollection(
 
 dbAccess.insertInCollection(
   'collectionName', 
-  { insertProperty: "Value" }
+  { insertProperty: "Value" }, //Object or array of objects
+  optionsObj //Optional
 );
 
 dbAccess.updateInCollection(
   'collectionName', 
   { filterProperty: "Value" }, 
-  { updateProperty: "Value" }
+  { updateProperty: "Value" },
+  true //True to update various documents, False for just one 
 );
 
 dbAccess.removeInCollection(
