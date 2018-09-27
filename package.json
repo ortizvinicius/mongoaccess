@@ -1,6 +1,6 @@
 {
   "name": "mongoaccess",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Small library with some asynchronous functions (Promises) to help working with MongoDB and Node.js, using the official MongoDB driver. Automatic connection start.",
   "homepage": "https://github.com/ortizvinicius/mongoaccess#readme",
   "bugs": {
@@ -17,7 +17,7 @@
     "driver",
     "automatic",
     "connection",
-    "promises", 
+    "promises",
     "asynchronous",
     "library"
   ],
