@@ -1,7 +1,7 @@
 {
   "name": "mongoaccess",
   "version": "1.0.1",
-  "description": "Some functions to help working with MongoDB and Node.js for local connection, using the official MongoDB driver. Automatic connection start.",
+  "description": "Small library with some asynchronous functions (Promises) to help working with MongoDB and Node.js, using the official MongoDB driver. Automatic connection start.",
   "homepage": "https://github.com/ortizvinicius/mongoaccess#readme",
   "bugs": {
     "url": "https://github.com/ortizvinicius/mongoaccess/issues",
@@ -16,7 +16,10 @@
     "nodejs",
     "driver",
     "automatic",
-    "connection"
+    "connection",
+    "promises", 
+    "asynchronous",
+    "library"
   ],
   "repository": "github:ortizvinicius/mongoaccess",
   "author": "Vinicius Ortiz <vinicius.oaw@gmail.com> (https://github.com/ortizvinicius)",

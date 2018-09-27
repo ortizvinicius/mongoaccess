@@ -48,7 +48,7 @@ module.exports = (dbUrl) => {
    * @param {Object} filter
    * @param {Object} options
    */
-  module.findInCollection = (collection, filter, options) => {
+  module.find = (collection, filter, options) => {
     return new Promise((successCallback, errorCallback) => {
 
       function find(){
@@ -90,7 +90,7 @@ module.exports = (dbUrl) => {
    * @param {String} collection
    * @param {Object} documents
    */
-  module.insertInCollection = (collection, documents) => {
+  module.insert = (collection, documents) => {
     return new Promise((successCallback, errorCallback) => {
 
       function insert(){
@@ -133,7 +133,7 @@ module.exports = (dbUrl) => {
    * @param {Object} updateObj
    * @param {Boolean} multi
    */
-  module.updateInCollection = (collection, filter, updateObj, multi) => { 
+  module.update = (collection, filter, updateObj, multi) => { 
     return new Promise((successCallback, errorCallback) => {
       
       function update(){
@@ -191,7 +191,7 @@ module.exports = (dbUrl) => {
    * @param {String} collection
    * @param {Object} filter
    */
-  module.removeInCollection = (collection, filter) => { 
+  module.remove = (collection, filter) => { 
     return new Promise((successCallback, errorCallback) => {
       
       function remove(){

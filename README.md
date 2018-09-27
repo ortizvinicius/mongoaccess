@@ -1,5 +1,5 @@
 # MongoAccess
-Some functions to help working with MongoDB and Node.js for local connection, using the official MongoDB driver. Automatic connection start
+Small library with some asynchronous functions (Promises) to help working with MongoDB and Node.js, using the official MongoDB driver. Automatic connection start.
 
 ## Installing
 ```
@@ -7,30 +7,25 @@ npm i mongoaccess --save
 ```
 
 ## How to use
-```
-const dbAccess = require('mongoaccess')('mongodb://localhost:27017/db-tests');
+```js 
+const db = require('mongoaccess')('mongodb://localhost:27017/db-name');
 
-dbAccess.findInCollection('collectionName', { filterProperty: "Value" })
-.then((documents) => { //array of objects
-  console.log(documents);
-}).catch((e) => {
-  console.error(e);
-});
+db.find('collection', { filterProperty: "Value" })
+  .then((documents) => console.log(documents)) //Array of objects
+  .catch((e) => console.error(e));
 
-dbAccess.insertInCollection('collectionName', 
-  { insertProperty: "Value" }, //Object or array of objects
-  optionsObj) //Optional
-.then(() => console.log('Done!'))
-.catch((e) => console.error(e));
+db.insert('collection', { insertProperty: "Value" }) //Object or array of objects
+  .then(() => console.log('Done!'))
+  .catch((e) => console.error(e));
 
-dbAccess.updateInCollection('collectionName', 
+db.update('collection', 
   { filterProperty: "Value" }, 
   { updateProperty: "Value" },
   true) //True to update various documents, False for just one
-.then(() => console.log('Done!'))
-.catch((e) => console.error(e));
+  .then(() => console.log('Done!'))
+  .catch((e) => console.error(e));
 
-dbAccess.removeInCollection('collectionName', { filterProperty: "Value" })
-.then(() => console.log('Done!'))
-.catch((e) => console.error(e));
+db.remove('collection', { filterProperty: "Value" })
+  .then(() => console.log('Done!'))
+  .catch((e) => console.error(e));
 ```

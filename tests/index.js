@@ -10,20 +10,20 @@ describe('MongoAccess Test', () => {
     expect(dbAccess).to.have.property('startConnection');
   });
 
-  it('Should have `findInCollection` object', () => {
-    expect(dbAccess).to.have.property('findInCollection')
+  it('Should have `find` object', () => {
+    expect(dbAccess).to.have.property('find')
   });
 
-  it('Should have `insertInCollection` object', () => {
-    expect(dbAccess).to.have.property('insertInCollection')
+  it('Should have `insert` object', () => {
+    expect(dbAccess).to.have.property('insert')
   });
 
-  it('Should have `updateInCollection` object', () => {
-    expect(dbAccess).to.have.property('updateInCollection')
+  it('Should have `update` object', () => {
+    expect(dbAccess).to.have.property('update')
   });
   
-  it('Should have `removeInCollection` object', () => {
-    expect(dbAccess).to.have.property('removeInCollection')
+  it('Should have `remove` object', () => {
+    expect(dbAccess).to.have.property('remove')
   });
 
 });
@@ -67,10 +67,10 @@ describe('MongoAccess -> startConnection() Test', () => {
 
 });
 
-describe('MongoAccess -> findInCollection() Test', () => {
+describe('MongoAccess -> find() Test', () => {
 
   it('Without first argument should return an exception', () => {
-    return dbAccess.findInCollection()
+    return dbAccess.find()
       .catch((e) => {
         expect(e).to.have.property('name');
         expect(e).to.have.property('message');
@@ -78,7 +78,7 @@ describe('MongoAccess -> findInCollection() Test', () => {
       });
   });
 
-  var collection = dbAccess.findInCollection('config');
+  var collection = dbAccess.find('config');
 
   it('With first argument should return a Promise', () => {
     expect(collection).to.have.property('then');
@@ -92,7 +92,7 @@ describe('MongoAccess -> findInCollection() Test', () => {
   });
 
   it('With wrong second argument should return an exception', () => {
-    return dbAccess.findInCollection('tests', {"a":"1"})
+    return dbAccess.find('tests', {"a":"1"})
       .catch((e) => {
         expect(e).to.have.property('name');
         expect(e).to.have.property('message');
@@ -102,10 +102,10 @@ describe('MongoAccess -> findInCollection() Test', () => {
 
 });
 
-describe('MongoAccess -> insertInCollection() Test', () => {
+describe('MongoAccess -> insert() Test', () => {
 
   it('Without first argument should return an exception', () => {
-    return dbAccess.insertInCollection()
+    return dbAccess.insert()
       .catch((e) => {
         expect(e).to.have.property('name');
         expect(e).to.have.property('message');
@@ -113,7 +113,7 @@ describe('MongoAccess -> insertInCollection() Test', () => {
       });
   });
 
-  var collection = dbAccess.insertInCollection('tests', {a:1});
+  var collection = dbAccess.insert('tests', {a:1});
 
   it('With second argument as object should return a Promise', () => {
     expect(collection).to.have.property('then');
@@ -132,7 +132,7 @@ describe('MongoAccess -> insertInCollection() Test', () => {
       });
   });
 
-  var collection2 = dbAccess.insertInCollection('tests', [{b:2}, {c:3}]);
+  var collection2 = dbAccess.insert('tests', [{b:2}, {c:3}]);
 
   it('With second argument as array should return a Promise', () => {
     expect(collection2).to.have.property('then');
@@ -153,10 +153,10 @@ describe('MongoAccess -> insertInCollection() Test', () => {
 
 });
 
-describe('MongoAccess -> updateInCollection() Test', () => {
+describe('MongoAccess -> update() Test', () => {
 
   it('Without first argument should return an exception', () => {
-    return dbAccess.updateInCollection()
+    return dbAccess.update()
       .catch((e) => {
         expect(e).to.have.property('name');
         expect(e).to.have.property('message');
@@ -164,7 +164,7 @@ describe('MongoAccess -> updateInCollection() Test', () => {
       });
   });
 
-  var collection = dbAccess.updateInCollection('tests', {a:1}, {d:4});
+  var collection = dbAccess.update('tests', {a:1}, {d:4});
 
   it('Should return a Promise', () => {
     expect(collection).to.have.property('then');
@@ -178,7 +178,7 @@ describe('MongoAccess -> updateInCollection() Test', () => {
       });
   });
 
-  var collection2 = dbAccess.updateInCollection('tests', {a:1}, {d:4}, true);
+  var collection2 = dbAccess.update('tests', {a:1}, {d:4}, true);
 
   it('With multi argument as true should return an object', () => {
     return collection2
@@ -189,7 +189,7 @@ describe('MongoAccess -> updateInCollection() Test', () => {
   });
 
   it('Without updateObj parameter should return an excepton', () => {
-    return dbAccess.updateInCollection('tests', {a:1})
+    return dbAccess.update('tests', {a:1})
       .catch((e) => {
         expect(e).to.have.property('name');
         expect(e).to.have.property('message');
@@ -199,10 +199,10 @@ describe('MongoAccess -> updateInCollection() Test', () => {
 
 });
 
-describe('MongoAccess -> removeInCollection() Test', () => {
+describe('MongoAccess -> remove() Test', () => {
   
   it('Without first argument should return an exception', () => {
-    return dbAccess.removeInCollection()
+    return dbAccess.remove()
       .catch((e) => {
         expect(e).to.have.property('name');
         expect(e).to.have.property('message');
@@ -210,7 +210,7 @@ describe('MongoAccess -> removeInCollection() Test', () => {
       });
   });
 
-  var collection = dbAccess.removeInCollection('tests', {b:2});
+  var collection = dbAccess.remove('tests', {b:2});
   
   it('Should return a Promise', () => {
     expect(collection).to.have.property('then');
