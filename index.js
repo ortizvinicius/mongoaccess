@@ -132,8 +132,9 @@ module.exports = (dbUrl) => {
    * @param {Object} filter
    * @param {Object} updateObj
    * @param {Boolean} multi
+   * @param {Boolean} customUpdateObj
    */
-  module.update = (collection, filter, updateObj, multi) => { 
+  module.update = (collection, filter, updateObj, multi, customUpdateObj) => { 
     return new Promise((successCallback, errorCallback) => {
       
       function update(){
@@ -150,7 +151,7 @@ module.exports = (dbUrl) => {
           
           if(updateObj){
             if(multi){
-              dbCollection.updateMany(updateFilter, {$set: updateObj}, (e, result) => {
+              dbCollection.updateMany(updateFilter, customUpdateObj ? updateObj : {$set: updateObj}, (e, result) => {
                 if(e){
                   errorCallback(e);
                 } else {
@@ -158,7 +159,7 @@ module.exports = (dbUrl) => {
                 }
               });
             } else {
-              dbCollection.updateOne(updateFilter, {$set: updateObj}, (e, result) => {
+              dbCollection.updateOne(updateFilter, {$set: customUpdateObj ? updateObj : {$set: updateObj}}, (e, result) => {
                 if(e){
                   errorCallback(e);
                 } else {
