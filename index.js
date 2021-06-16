@@ -159,7 +159,7 @@ module.exports = (dbUrl) => {
                 }
               });
             } else {
-              dbCollection.updateOne(updateFilter, {$set: customUpdateObj ? updateObj : {$set: updateObj}}, (e, result) => {
+              dbCollection.updateOne(updateFilter, customUpdateObj ? updateObj : {$set: updateObj}, (e, result) => {
                 if(e){
                   errorCallback(e);
                 } else {
