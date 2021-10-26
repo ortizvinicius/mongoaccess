@@ -1,8 +1,6 @@
-const chai = require('chai'),
-      expect = require('chai').expect,
-      mocha = require('mocha');
+const { expect } = require('chai');
 
-const dbAccess = require('../index')('mongodb://localhost:27017/db-tests');
+const dbAccess = require('../index')('mongodb://localhost:27017', 'db-tests');
 
 describe('MongoAccess Test', () => {
 
@@ -123,10 +121,6 @@ describe('MongoAccess -> insert() Test', () => {
     return collection
       .then((results) => {
         expect(results).to.be.a('object');
-        expect(results).to.have.property('insertedCount');
-        expect(results).to.have.property('ops');
-        expect(results).to.have.property('insertedIds');
-        expect(results).to.have.property('result');
 
         expect(results.insertedCount).to.equal(1);
       });
@@ -142,10 +136,6 @@ describe('MongoAccess -> insert() Test', () => {
     return collection2
       .then((results) => {
         expect(results).to.be.a('object');
-        expect(results).to.have.property('insertedCount');
-        expect(results).to.have.property('ops');
-        expect(results).to.have.property('insertedIds');
-        expect(results).to.have.property('result');
 
         expect(results.insertedCount).to.equal(2);
       });
@@ -174,17 +164,6 @@ describe('MongoAccess -> update() Test', () => {
     return collection
       .then((results) => {
         expect(results).to.be.a('object');
-        expect(results).to.have.property('result');
-      });
-  });
-
-  var collection2 = dbAccess.update('tests', {a:1}, {d:4}, true);
-
-  it('With multi argument as true should return an object', () => {
-    return collection2
-      .then((results) => {
-        expect(results).to.be.a('object');
-        expect(results).to.have.property('result');
       });
   });
 
@@ -220,8 +199,42 @@ describe('MongoAccess -> remove() Test', () => {
     return collection
       .then((results) => {
         expect(results).to.be.a('object');
-        expect(results).to.have.property('result');
       });
   });
   
+});
+
+describe('MongoAccess -> aggregate() Test', () => {
+  
+  it('Without first argument should return an exception', () => {
+    return dbAccess.aggregate()
+      .catch((e) => {
+        expect(e).to.have.property('name');
+        expect(e).to.have.property('message');
+        expect(e).to.have.property('stack');
+      });
+  });
+
+  it('Without seconds argument should return an exception', () => {
+    return dbAccess.aggregate('tests')
+      .catch((e) => {
+        expect(e).to.have.property('name');
+        expect(e).to.have.property('message');
+        expect(e).to.have.property('stack');
+      });
+  });
+
+  var collection = dbAccess.aggregate('config', [{ $match: { c: 3 } }]);
+
+  it('With both arguments should return a Promise', () => {
+    expect(collection).to.have.property('then');
+  });
+
+  it('With both arguments should return an array', () => {
+    return collection
+      .then((results) => {
+        expect(results).to.be.a('array');
+      });
+  });
+
 });

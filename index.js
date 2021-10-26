@@ -1,22 +1,23 @@
 const MongoClient = require('mongodb').MongoClient;
 
-module.exports = (dbUrl) => {    
+module.exports = (aUrl, aDB) => {    
 
   var db,
       module = {};
 
   /**
    * @param {String} url
+   * @param {String} dbName
    */
-  module.startConnection = (url) => {
+  module.startConnection = (url, dbName) => {
     return new Promise((successCallback, errorCallback) => {
 
       function startDbAccess(){
-        MongoClient.connect(dbUrl, (e, dbConn) => { 
+        MongoClient.connect(aUrl, (e, client) => { 
           if(e){
             errorCallback(e);
           } else {
-            db = dbConn;
+            db = client.db(aDB);
             successCallback(db);
           }
         });
@@ -27,11 +28,20 @@ module.exports = (dbUrl) => {
         if(db) db.close();
 
         if(url){
-          dbUrl = url;
-        } else if(!dbUrl) {
+          aUrl = url;
+        } else if(!aUrl) {
           var dbException = new Error();
           dbException.name = 'Arguments error';
-          dbException.message = 'Argument `dbUrl` was not given';
+          dbException.message = 'Empty `url`';
+          errorCallback(dbException);
+        }
+
+        if(dbName){
+          aDB = dbName;
+        } else if(!aDB) {
+          var dbException = new Error();
+          dbException.name = 'Arguments error';
+          dbException.message = 'Empty `dbName`';
           errorCallback(dbException);
         }
 
@@ -53,12 +63,8 @@ module.exports = (dbUrl) => {
 
       function find(){
         if(!collection){
-          var collectionException = new Error();
-          collectionException.name = 'Arguments error';
-          collectionException.message = 'Argument `collection` was not given';
-          errorCallback(collectionException);
+          collectionException(errorCallback);
         } else {
-
           var findFilter = typeof filter === 'object' && filter !== null ? filter : {},
               findOptions = typeof options === 'object' && options !== null ? options : {};
 
@@ -95,17 +101,14 @@ module.exports = (dbUrl) => {
 
       function insert(){
         if(!collection){
-          var collectionException = new Error();
-          collectionException.name = 'Arguments error';
-          collectionException.message = 'Argument `collection` was not given';
-          errorCallback(collectionException);
+          collectionException(errorCallback);
         } else {
-
           var dbCollection = db.collection(collection);
           
-          var insertDocuments = typeof documents === 'object' && documents !== null ? documents : {};
+          var insertDocuments = typeof documents === 'object' && documents !== null ? documents : [];
+          insertDocuments = [].concat(insertDocuments);
 
-          dbCollection.insert(insertDocuments, (e, result) => {
+          dbCollection.insertMany(insertDocuments, (e, result) => {
             if(e){
               errorCallback(e);
             } else {
@@ -131,46 +134,31 @@ module.exports = (dbUrl) => {
    * @param {String} collection
    * @param {Object} filter
    * @param {Object} updateObj
-   * @param {Boolean} multi
    * @param {Boolean} customUpdateObj
    */
-  module.update = (collection, filter, updateObj, multi, customUpdateObj) => { 
+  module.update = (collection, filter, updateObj, customUpdateObj) => { 
     return new Promise((successCallback, errorCallback) => {
       
       function update(){
         if(!collection){
-          var collectionException = new Error();
-          collectionException.name = 'Arguments error';
-          collectionException.message = 'Argument `collection` was not given';
-          errorCallback(collectionException);
+          collectionException(errorCallback);
         } else {
-
           var dbCollection = db.collection(collection);
 
           var updateFilter = typeof filter === 'object' && filter !== null ? filter : {};
           
           if(updateObj){
-            if(multi){
-              dbCollection.updateMany(updateFilter, customUpdateObj ? updateObj : {$set: updateObj}, (e, result) => {
-                if(e){
-                  errorCallback(e);
-                } else {
-                  successCallback(result);
-                }
-              });
-            } else {
-              dbCollection.updateOne(updateFilter, customUpdateObj ? updateObj : {$set: updateObj}, (e, result) => {
-                if(e){
-                  errorCallback(e);
-                } else {
-                  successCallback(result);
-                }
-              });
-            }
+            dbCollection.updateMany(updateFilter, customUpdateObj ? updateObj : {$set: updateObj}, (e, result) => {
+              if(e){
+                errorCallback(e);
+              } else {
+                successCallback(result);
+              }
+            });
           } else {
             var updateException = new Error();
-            updateException.name = 'Update error';
-            updateException.message = 'Empty updateObj var';
+            updateException.name = 'Arguments error';
+            updateException.message = 'Empty `updateObj`';
             errorCallback(updateException); 
           }
         }
@@ -197,16 +185,13 @@ module.exports = (dbUrl) => {
       
       function remove(){
         if(!collection){
-          var collectionException = new Error();
-          collectionException.name = 'Arguments error';
-          collectionException.message = 'Argument `collection` was not given';
-          errorCallback(collectionException);
+          collectionException(errorCallback);
         } else {
-
           var dbCollection = db.collection(collection);
 
           var removeFilter = typeof filter === 'object' && filter !== null ? filter : {};
-          dbCollection.remove(removeFilter, {}, (e, result) => {
+
+          dbCollection.deleteMany(removeFilter, {}, (e, result) => {
             if(e){
               errorCallback(e);
             } else {
@@ -228,6 +213,58 @@ module.exports = (dbUrl) => {
     });
   };
 
+  /**
+   * @param {String} collection
+   * @param {Object} [pipeline]
+   * @param {Object} [options]
+   */
+  module.aggregate = (collection, pipeline, options) => {
+    return new Promise((successCallback, errorCallback) => {
+
+      function aggregate(){
+        if(!collection){
+          collectionException(errorCallback);
+        } if(!pipeline){
+          var pipelineException = new Error();
+          pipelineException.name = 'Arguments error';
+          pipelineException.message = 'Empty `pipeline`';
+          errorCallback(pipelineException);
+        } else {
+
+          var agrPipeline = typeof pipeline === 'object' && pipeline !== null ? pipeline : [],
+              agrOptions = typeof options === 'object' && options !== null ? options : {};
+
+          var dbCollection = db.collection(collection);
+
+          dbCollection.aggregate(agrPipeline, agrOptions).toArray((e, docs) => {
+            if(e){
+              errorCallback(e);
+            } else {
+              successCallback(docs);
+            }
+          });
+        }
+      }
+
+      try {
+        if(!db){
+          module.startConnection()
+            .then(aggregate)
+            .catch(errorCallback);
+        } else aggregate(); 
+      } catch (e){
+        errorCallback(e); 
+      }
+    });
+  };
+
   return module;
 
+}
+
+function collectionException(callback){
+  var collectionException = new Error();
+      collectionException.name = 'Arguments error';
+      collectionException.message = 'Empty `collection`';
+  callback(collectionException);
 }

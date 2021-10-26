@@ -23,12 +23,12 @@
   ],
   "repository": "github:ortizvinicius/mongoaccess",
   "author": "Vinicius Ortiz <vinicius.oaw@gmail.com> (https://github.com/ortizvinicius)",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "mongodb": "^3.1.13"
+    "mongodb": "^4.1.3"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3"
   }
 }
